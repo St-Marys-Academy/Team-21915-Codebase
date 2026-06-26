@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ master ]
 
+permissions:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,4 +35,26 @@ jobs:
       with:
         name: build
         path: TeamCode/build/outputs/
-        retention-days: 
+
+    - name: Create Draft Release
+      if: success() && github.event_name == 'push'
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: build-${{ github.run_number }}
+        release_name: Build ${{ github.run_number }}
+        draft: true
+        prerelease: false
+
+    - name: Upload APK to Release
+      if: success() && github.event_name == 'push'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./TeamCode/build/outputs/apk/debug/TeamCode-debug.apk
+        asset_name: TeamCode-debug-build-${{ github.run_number }}.apk
+        asset_content_type: application/vnd.android.package-archive
