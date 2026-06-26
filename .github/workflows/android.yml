@@ -37,25 +37,18 @@ jobs:
         name: build
         path: TeamCode/build/outputs/
 
+    - name: Rename APK for release
+      if: success() && github.event_name == 'push'
+      run: mv ./TeamCode/build/outputs/apk/debug/TeamCode-debug.apk ./TeamCode/build/outputs/apk/debug/TeamCode-commit-${{ github.run_number }}.apk
+
     - name: Create Draft Release
       if: success() && github.event_name == 'push'
-      id: create_release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: build-${{ github.run_number }}
-        release_name: commit ${{ github.run_number }}
+        name: commit ${{ github.run_number }}
         draft: true
         prerelease: false
-
-    - name: Upload APK to Release
-      if: success() && github.event_name == 'push'
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./TeamCode/build/outputs/apk/debug/TeamCode-debug.apk
-        asset_name: TeamCode-commit-${{ github.run_number }}.apk
-        asset_content_type: application/vnd.android.package-archive
+        files: ./TeamCode/build/outputs/apk/debug/TeamCode-commit-${{ github.run_number }}.apk
