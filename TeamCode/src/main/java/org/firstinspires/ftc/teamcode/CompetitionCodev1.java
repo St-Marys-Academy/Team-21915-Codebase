@@ -33,7 +33,7 @@ public class CompetitionCodev1 extends LinearOpMode {
         // This ensures all powers maintain the same ratio, but only if one is outside of the range [-1, 1].
         denominator = JavaUtil.maxOfList(JavaUtil.createListWith(JavaUtil.sumOfList(JavaUtil.createListWith(Math.abs(y), Math.abs(x), Math.abs(rx))), 1.3));
         // This is the final fraction that calculates the motor powers.
-        if (slow_mode2) {
+        if (gamepad2.right_trigger >= 0.45) {
             front_left.setPower(((y + x + rx) / denominator) / 2);
             back_left.setPower((((y - x) + rx) / denominator) / 2);
             front_right.setPower((((y - x) - rx) / denominator) / 2);
@@ -61,19 +61,7 @@ public class CompetitionCodev1 extends LinearOpMode {
         front_right.setDirection(DcMotor.Direction.REVERSE);
         back_right.setDirection(DcMotor.Direction.REVERSE);
         while (opModeIsActive()) {
-            slow_mode();
             mecanum_drive();
-        }
-    }
-
-    /**
-     * Sets slow mode for mecanum drive
-     */
-    private void slow_mode() {
-        if (gamepad2.right_trigger >= 0.45) {
-            slow_mode2 = true;
-        } else {
-            slow_mode2 = false;
         }
     }
 }
