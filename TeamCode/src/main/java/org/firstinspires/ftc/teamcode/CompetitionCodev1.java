@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@TeleOp(name = "CompetitionCodev4Laser")
+@TeleOp(name = "CompetitionCodev1")
 public class CompetitionCodev1 extends LinearOpMode {
 
     private DcMotor front_left;

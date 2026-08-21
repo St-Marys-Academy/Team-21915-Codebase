@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@TeleOp(name = "CompetitionCodev4Laser")
+@TeleOp(name = "OldCompetitionCodev4Laser")
 public class OldCompetitionCodev4 extends LinearOpMode {
 
     private DcMotor front_left;
