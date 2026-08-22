@@ -15,19 +15,15 @@ public class CompetitionCodev1 extends LinearOpMode {
      * Basic mecanum driving
      */
     private void mecanum_drive() {
-        double y;
-        double x;
-        double rx;
-        double denominator;
 
         // Y and X are combined to make a fraction that creates the power values for the motors. RX is for rotating the robot and only applies to the right stick
-        y = gamepad2.left_stick_y;
+        double y = gamepad2.left_stick_y;
         // Factor to counteract imperfect strafing
-        x = -(gamepad2.left_stick_x * 1.1);
-        rx = -gamepad2.right_stick_x;
+        double x = -(gamepad2.left_stick_x * 1.1);
+        double rx = -gamepad2.right_stick_x;
         // Denominator is the largest motor power (absolute value) or 1.
         // This ensures all powers maintain the same ratio, but only if one is outside of the range [-1, 1].
-        denominator = JavaUtil.maxOfList(JavaUtil.createListWith(JavaUtil.sumOfList(JavaUtil.createListWith(Math.abs(y), Math.abs(x), Math.abs(rx))), 1.3));
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1.3);
         // This is the final fraction that calculates the motor powers.
         frontLeft.setPower((y + x + rx) / denominator);
         backLeft.setPower(((y - x) + rx) / denominator);
