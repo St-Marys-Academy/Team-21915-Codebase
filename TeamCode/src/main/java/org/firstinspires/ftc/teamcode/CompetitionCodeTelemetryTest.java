@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@TeleOp(name = "CompetitionCodev1")
-public class CompetitionCodev1 extends LinearOpMode {
+
+@TeleOp(name = "CompetitonCodeTelemetryTest")
+public class CompetitionCodeTelemetryTest extends LinearOpMode {
+
+
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
@@ -46,6 +48,25 @@ public class CompetitionCodev1 extends LinearOpMode {
         backRight.setDirection(DcMotor.Direction.REVERSE);
         while (opModeIsActive()) {
             mecanum_drive();
+            moterData(frontLeft);
+            moterData(frontRight);
+            moterData(backLeft);
+            moterData(backRight);
+            telemetry.update();
         }
     }
+
+/**
+ * takes in a moter and returns all the info about it.
+ * will return the motor's name, type, current power, port number, and direction.
+  */
+public void moterData(DcMotor returnMotor){
+        telemetry.addData( "Motor",returnMotor.getDeviceName()); // doesn't return as intended
+        telemetry.addData( "Type",returnMotor.getMotorType());
+        telemetry.addData( "Current Power",returnMotor.getPower());
+        telemetry.addData( "Port Number",returnMotor.getPortNumber());
+        telemetry.addData( "Direction",returnMotor.getDirection());
+    }
+
+
 }
