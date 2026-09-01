@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 
 @Autonomous(name = "TelemetryTest")
-public class TelemetryTest extends LinearOpMode {
+public class AutoTelemetryTestv1 extends LinearOpMode {
 
 
 
