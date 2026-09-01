@@ -7,10 +7,10 @@ import org.firstinspires.ftc.robotcore.external.JavaUtil;
 @TeleOp(name = "CompetitionCodev1")
 public class CompetitionCodev1 extends LinearOpMode {
 
-    private DcMotor frontLeft;
-    private DcMotor backLeft;
-    private DcMotor frontRight;
-    private DcMotor backRight;
+    private DcMotor leftFront;
+    private DcMotor leftBack;
+    private DcMotor rightFront;
+    private DcMotor rightBack;
     /**
      * Basic mecanum driving
      */
@@ -25,25 +25,25 @@ public class CompetitionCodev1 extends LinearOpMode {
         // This ensures all powers maintain the same ratio, but only if one is outside of the range [-1, 1].
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1.3);
         // This is the final fraction that calculates the motor powers.
-        frontLeft.setPower((y + x + rx) / denominator);
-        backLeft.setPower(((y - x) + rx) / denominator);
-        frontRight.setPower(((y - x) - rx) / denominator);
-        backRight.setPower(((y + x) - rx) / denominator);
+        leftFront.setPower((y + x + rx) / denominator);
+        leftBack.setPower(((y - x) + rx) / denominator);
+        rightFront.setPower(((y - x) - rx) / denominator);
+        rightBack.setPower(((y + x) - rx) / denominator);
     }
     /**
      * This function is executed when this Op Mode is selected from the Driver Station.
      */
     @Override
     public void runOpMode() {
-        frontLeft = hardwareMap.get(DcMotor.class, "front_left");
-        backLeft = hardwareMap.get(DcMotor.class, "back_left");
-        frontRight = hardwareMap.get(DcMotor.class, "front_right");
-        backRight = hardwareMap.get(DcMotor.class, "back_right");
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
         waitForStart();
         // Reverses motors so they all go in the same direction
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
         while (opModeIsActive()) {
             mecanum_drive();
         }
