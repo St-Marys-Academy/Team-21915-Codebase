@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
 @Autonomous(name = "TelemetryTest")
@@ -25,14 +26,15 @@ public class AutoTelemetryTestv1 extends LinearOpMode {
      */
     @Override
     public void runOpMode() {
-        leftFront = hardwareMap.get(DcMotor.class, "front_left");
-        leftBack = hardwareMap.get(DcMotor.class, "back_left");
-        rightFront = hardwareMap.get(DcMotor.class, "front_right");
-        rightBack = hardwareMap.get(DcMotor.class, "back_right");
+        imu = hardwareMap.get(IMU.class, "imu");
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
         // Create a RevHubOrientationOnRobot object for use with an IMU in a REV Robotics Control
         // Hub or Expansion Hub, specifying the hub's orientation on the robot via the direction
         // that the REV Robotics logo is facing and the direction that the USB ports are facing.
-        IMU.Parameters imuparameters = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
+        IMU.Parameters imuparameters = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
         imu.initialize(imuparameters);
         imu.resetYaw();
         waitForStart();
@@ -44,6 +46,8 @@ public class AutoTelemetryTestv1 extends LinearOpMode {
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         if (opModeIsActive()) {
+            convertToRotations(4);
+            rotateRight(90);
             convertToRotations(4);
         }
         /*while (opModeIsActive()) {
@@ -80,32 +84,56 @@ public class AutoTelemetryTestv1 extends LinearOpMode {
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
-    public void setRunMode() {
+    public void setRunToPosition() {
         leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+    public void setRunWithoutEncoders() {
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     public void convertToRotations(double distance) {
         int distanceToRotations = -(int)(((distance * 12) / 12.86319)  * 530);
         driveRotations(distanceToRotations);
     }
-
     public void driveRotations(int rotations) {
         resetDriveMotors();
         leftFront.setTargetPosition(rotations);
         rightFront.setTargetPosition(rotations);
         leftBack.setTargetPosition(rotations);
         rightBack.setTargetPosition(rotations);
-        setRunMode();
-        leftFront.setPower(0.5);
-        rightFront.setPower(0.5);
-        leftBack.setPower(0.5);
-        rightBack.setPower(0.5);
+        setRunToPosition();
+        while (rightBack.isBusy()) {
+            leftFront.setPower(0.5);
+            rightFront.setPower(0.5);
+            leftBack.setPower(0.5);
+            rightBack.setPower(0.5);
+        }
         leftFront.setPower(0);
         rightFront.setPower(0);
         leftBack.setPower(0);
         rightBack.setPower(0);
+        setRunWithoutEncoders();
+        resetDriveMotors();
+    }
+    private void rotateRight(int degrees) {
+        setRunWithoutEncoders();
+        imu.resetYaw();
+        while (opModeIsActive() && Math.abs(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)) < degrees) {
+            leftBack.setPower(-0.5);
+            leftFront.setPower(-0.5);
+            rightBack.setPower(0.5);
+            rightFront.setPower(0.5);
+            telemetry.addData("Yaw", Math.abs(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)));
+            telemetry.update();
+        }
+        leftBack.setPower(0);
+        rightBack.setPower(0);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
     }
 }
