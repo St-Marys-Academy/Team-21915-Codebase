@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
-@Autonomous(name = "TelemetryTest")
+@Autonomous(name = "AutoTelemetryTestv1")
 public class AutoTelemetryTestv1 extends LinearOpMode {
 
 
@@ -46,14 +46,11 @@ public class AutoTelemetryTestv1 extends LinearOpMode {
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         if (opModeIsActive()) {
-            convertToRotations(4);
+            driveFeet(4);
             rotateRight(90);
-            convertToRotations(4);
+            driveFeet(4);
+            rotateLeft(90);
         }
-        /*while (opModeIsActive()) {
-            motorData(leftFront);
-            telemetry.update();
-        }*/
     }
 
 /**
@@ -96,8 +93,8 @@ public class AutoTelemetryTestv1 extends LinearOpMode {
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-    public void convertToRotations(double distance) {
-        int distanceToRotations = -(int)(((distance * 12) / 12.86319)  * 530);
+    public void driveFeet(double distance) {
+        int distanceToRotations = (int)-(((distance * 12) / 12.86319)  * 530);
         driveRotations(distanceToRotations);
     }
     public void driveRotations(int rotations) {
@@ -108,10 +105,10 @@ public class AutoTelemetryTestv1 extends LinearOpMode {
         rightBack.setTargetPosition(rotations);
         setRunToPosition();
         while (rightBack.isBusy()) {
-            leftFront.setPower(0.5);
-            rightFront.setPower(0.5);
-            leftBack.setPower(0.5);
-            rightBack.setPower(0.5);
+            leftFront.setPower(1);
+            rightFront.setPower(1);
+            leftBack.setPower(1);
+            rightBack.setPower(1);
         }
         leftFront.setPower(0);
         rightFront.setPower(0);
@@ -124,10 +121,26 @@ public class AutoTelemetryTestv1 extends LinearOpMode {
         setRunWithoutEncoders();
         imu.resetYaw();
         while (opModeIsActive() && Math.abs(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)) < degrees) {
-            leftBack.setPower(-0.5);
-            leftFront.setPower(-0.5);
-            rightBack.setPower(0.5);
-            rightFront.setPower(0.5);
+            leftBack.setPower(-1);
+            leftFront.setPower(-1);
+            rightBack.setPower(1);
+            rightFront.setPower(1);
+            telemetry.addData("Yaw", Math.abs(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)));
+            telemetry.update();
+        }
+        leftBack.setPower(0);
+        rightBack.setPower(0);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+    }
+    private void rotateLeft(int degrees){
+        setRunWithoutEncoders();
+        imu.resetYaw();
+        while (opModeIsActive() && Math.abs(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)) < degrees) {
+            leftBack.setPower(1);
+            leftFront.setPower(1);
+            rightBack.setPower(-1);
+            rightFront.setPower(-1);
             telemetry.addData("Yaw", Math.abs(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)));
             telemetry.update();
         }
