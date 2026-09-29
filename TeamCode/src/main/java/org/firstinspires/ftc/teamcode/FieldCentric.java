@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import com.pedropathing.drivetrain.DrivePowers;
 import com.pedropathing.follower.ManualDrive;
-@TeleOp(name = "PedroTeleOp")
-public class PedroTeleOp extends OpMode {
+@TeleOp
+public class FieldCentric extends OpMode {
 
     private Follower follower;
 

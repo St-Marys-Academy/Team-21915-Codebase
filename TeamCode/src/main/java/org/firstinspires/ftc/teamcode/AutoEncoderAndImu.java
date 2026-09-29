@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
-@Autonomous(name = "AutoTelemetryTestv1")
-public class AutoTelemetryTestv1 extends LinearOpMode {
+@Autonomous
+public class AutoEncoderAndImu extends LinearOpMode {
 
 
 

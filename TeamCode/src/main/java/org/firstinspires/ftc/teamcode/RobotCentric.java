@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@TeleOp(name = "CompetitionCodev1")
-public class CompetitionCodev1 extends LinearOpMode {
+@TeleOp
+public class RobotCentric extends OpMode {
 
     private DcMotor leftFront;
     private DcMotor leftBack;
@@ -30,22 +29,17 @@ public class CompetitionCodev1 extends LinearOpMode {
         rightFront.setPower(((y - x) - rx) / denominator);
         rightBack.setPower(((y + x) - rx) / denominator);
     }
-    /**
-     * This function is executed when this Op Mode is selected from the Driver Station.
-     */
     @Override
-    public void runOpMode() {
+    public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
-
-        waitForStart();
-        // Reverses motors so they all go in the same direction
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
-        while (opModeIsActive()) {
-            mecanum_drive();
-        }
+    }
+    @Override
+    public void loop() {
+        mecanum_drive();
     }
 }
