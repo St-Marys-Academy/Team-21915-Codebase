@@ -24,9 +24,15 @@ public class FieldCentric extends OpMode {
                 -gamepad1.right_stick_x,
                 follower.pose().heading()
         );
-        ManualDrive.driveOrHold(follower, powers);
-
+        follower.manual(powers);
         follower.update();
+
+        // relocalise button
+        if (gamepad1.start) {
+            Pose cornerPose = new Pose(0, 0, Math.toRadians(0));
+            // On the fly Pose creation, we dont recommend this for Autonomous. Only accepts radians for heading
+            follower.setPose(cornerPose); // overrides our pose
+        }
 
         Pose robotPose = follower.pose(); // returns a Pose object
         telemetry.addData("Robot X", robotPose.x());
