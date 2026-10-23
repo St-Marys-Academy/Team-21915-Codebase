@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @TeleOp
 public class ForwardBack extends OpMode{
     private DcMotor leftFront;
@@ -19,6 +21,10 @@ public class ForwardBack extends OpMode{
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
+    }
+    @Override
+    public void start() {
+        telemetry.addData("Press cross for forward and press circle for back", "");
     }
     @Override
     public void loop() {

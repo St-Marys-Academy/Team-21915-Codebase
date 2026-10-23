@@ -31,5 +31,6 @@ public class DriveDebug extends OpMode {
         telemetry.addData("leftBack", leftBack.getVelocity());
         telemetry.addData("rightFront", rightFront.getVelocity());
         telemetry.addData("rightBack", rightBack.getVelocity());
+        telemetry.update();
     }
 }
