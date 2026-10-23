@@ -12,11 +12,13 @@ public class PedroRobotCentric extends OpMode {
 
     private Follower follower;
     private DcMotor intake;
+    private DcMotor shooter;
 
     @Override
     public void init() {
         follower = Constants.create(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, "intake");
+        shooter = hardwareMap.get(DcMotor.class, "shooter");
     }
 
     @Override
@@ -35,6 +37,12 @@ public class PedroRobotCentric extends OpMode {
         }
         else {
             intake.setPower(0);
+        }
+        if (gamepad1.right_bumper) {
+            shooter.setPower(1.0);
+        }
+        else {
+            shooter.setPower(0);
         }
     }
 }
