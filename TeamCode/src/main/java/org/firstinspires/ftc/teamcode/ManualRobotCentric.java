@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class ManualRobotCentric extends OpMode {
@@ -12,6 +13,9 @@ public class ManualRobotCentric extends OpMode {
     private DcMotor rightBack;
     private DcMotor intake;
     private DcMotor shooter;
+    private Servo adjusterLeft;
+    private Servo adjusterRight;
+    private Servo aim;
     /**
      * Basic mecanum driving
      */
@@ -39,6 +43,9 @@ public class ManualRobotCentric extends OpMode {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
         intake = hardwareMap.get(DcMotor.class, "intake");
         shooter = hardwareMap.get(DcMotor.class, "shooter");
+        adjusterLeft = hardwareMap.get(Servo.class, "adjusterLeft");
+        adjusterRight = hardwareMap.get(Servo.class, "adjusterRight");
+        aim = hardwareMap.get(Servo.class, "aim");
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
     }
@@ -59,6 +66,20 @@ public class ManualRobotCentric extends OpMode {
         }
         else {
             shooter.setPower(0);
+        }
+        if (gamepad1.dpad_up) {
+            adjusterLeft.setPosition(0.5);
+            adjusterRight.setPosition(0.5);
+        }
+        else if (gamepad1.dpad_down) {
+            adjusterLeft.setPosition(0.0);
+            adjusterRight.setPosition(0.0);
+        }
+        if (gamepad1.dpad_right) {
+            aim.setPosition(0.5);
+        }
+        else if (gamepad1.dpad_left){
+            aim.setPosition(0);
         }
     }
 }
