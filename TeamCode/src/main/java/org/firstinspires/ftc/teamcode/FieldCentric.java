@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.pedro.Constants;
 import com.pedropathing.drivetrain.DrivePowers;
 import com.pedropathing.follower.ManualDrive;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
@@ -27,6 +28,7 @@ public class FieldCentric extends OpMode {
         adjusterLeft = hardwareMap.get(Servo.class, "adjusterLeft");
         adjusterRight = hardwareMap.get(Servo.class, "adjusterRight");
         aim = hardwareMap.get(Servo.class, "aim");
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.pedro.Constants;
@@ -27,6 +28,7 @@ public class PedroRobotCentric extends OpMode {
         adjusterRight = hardwareMap.get(Servo.class, "adjusterRight");
         aim = hardwareMap.get(Servo.class, "aim");
         adjusterLeft.setDirection(Servo.Direction.REVERSE);
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
